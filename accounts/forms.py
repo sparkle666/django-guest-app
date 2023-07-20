@@ -19,9 +19,9 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username',)
+        fields = ("first_name", "last_name", "tracking_id", 'email', 'username')
+        exclude = ["password",]
         
-
 
 
    

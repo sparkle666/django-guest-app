@@ -8,7 +8,7 @@ from .models import Hotel, Room, Timeline
 from faker import Faker
 import random
 from django.utils import timezone
-
+from accounts.forms import CustomUserChangeForm
 
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
@@ -81,7 +81,8 @@ class UserProfileView(View):
     def get(self, request, *args, **kwargs):
         guest = get_object_or_404(CustomUser, pk = request.user.id)
         rooms = Room.objects.filter(guest = guest)
-        return render(request, "pages/user_profile.html", {"rooms": rooms})
+        form = CustomUserChangeForm(instance = guest)
+        return render(request, "pages/user_profile.html", {"rooms": rooms, "form": form})
     
 class RoomListView(View):
     

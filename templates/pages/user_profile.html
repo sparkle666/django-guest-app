@@ -1,7 +1,26 @@
 {% extends "_base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div style="height: 500px;">
         <p>User profile will appear here...</p>
-        <p>  </p>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {% if field.name != 'password' %}
+                    <div>
+                        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul>
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>        
     </div>
 {% endblock %}
