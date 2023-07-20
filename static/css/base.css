@@ -59,3 +59,8 @@ p{
 .card-dropshadow{
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
+
+.gt-p{
+  font-weight: 400;
+  padding: 8px 0;
+}

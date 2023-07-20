@@ -29,17 +29,28 @@
                         </span>
                         <div class="card-body">
                             <h5 class="card-title">Room # {{ room.id }} </h5>
-                            {% if room.is_occupied %}
-                                <a href="#" class="btn btn-primary disabled">Check In</a>
-                                {% else %}
+                            {% if room.is_occupied and room.guest.username == user.username %}
+                                <p class="gt-p"><i class="fas fa-user text-primary"></i> 
+                                    Guest : {{ user.username }}
+                                </p>
+                                <!-- <a href="#" class="btn btn-primary disabled">Check In</a> -->
+                            {% elif room.is_occupied %}
+                                <p class="gt-p"><i class="fas fa-user text-primary"></i> 
+                                    Guest : {{ room.guest.username }}
+                                </p>
+                            {% else %}
                                 <form method="post" action="{% url 'check_in' hotel.id room.id %}">
                                     {% csrf_token %}
                                     <!-- <a href="" class="btn btn-primary" type="submit">Check In</a> -->
-                                    <button type="submit">Check In</button>
+                                    <button type="submit" class="btn btn-primary">Check In</button>
                                 </form>
                             {% endif %}
                         </div>
                     </div>
+                </div>
+            {% empty %}
+                <div class="container">
+                    <p class="">There is currently no room here...</p>
                 </div>
             {% endfor %}
         </div>

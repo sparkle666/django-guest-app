@@ -53,6 +53,12 @@ class HotelDetail(View):
 class CheckInView(View):
     
     def post(self, request, *args, **kwargs):
+        
+        already_checked_in = Room.objects.filter(guest = request.user, is_occupied = True).exists()
+
+        if already_checked_in:
+            messages.error(request, "You are already checked into a room.")
+            return redirect("hotel_list")
         hotel_id = kwargs.get("hotel_id")
         room_id = kwargs.get("room_id")
         
@@ -69,7 +75,7 @@ class CheckInView(View):
         timeline.save()
         messages.success(request, "You checked into {hotel.name} in {room.id} successfully!")
         return redirect("user_profile")
-        
+     
 class UserProfileView(View):
     
     def get(self, request, *args, **kwargs):
