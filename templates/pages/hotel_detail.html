@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+    <div>
+        {% if hotel %}
+            <div>
+                <img src="{{ hotel.featured_image.url }}" alt="hotel image" class="img-fluid rounded" height="300">
+            </div>
+        {% endif %}
+
+        <p class="gt-headline">All available rooms in {{ hotel.name }} | </p>
+        {% if rooms %}
+            {% for room in rooms %}
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card w-50">
+                    <div class="card-body">
+                        <h5 class="card-title">Room # {{ room.id }} </h5>
+                        <p class="card-text">{{ room.is_occupied }}</p>
+                        <a href="#" class="btn btn-primary">Check In</a>
+                    </div>
+                </div>
+            </div>
+                  
+            {% endfor %}
+        {% endif %}
+
+    </div>
+{% endblock %}

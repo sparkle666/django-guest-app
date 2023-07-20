@@ -1,0 +1,61 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+p{
+  margin: 0;
+}
+.container {
+  max-width: 960px;
+}
+
+.pricing-header {
+  max-width: 700px;
+}
+
+
+.gt-body{
+  width: 100%;
+}
+
+.my-card{
+  width: 400px; 
+  margin: auto; 
+  padding: 50px 30px; 
+  border-radius: 10px;
+  background-color: white;
+}
+
+.gt-container{
+  margin: 0px 100px;
+  background-color: white;
+  padding: 20px;
+}
+.gt-headline{
+  font-size: 20px;
+  font-weight: 500;
+  border-bottom: 2px solid rgb(245, 245, 245);
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.rating i {
+  color: gold;
+}
+
+.navbar{
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.card-dropshadow{
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}

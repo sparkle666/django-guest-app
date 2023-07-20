@@ -1,0 +1,41 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+    <img src="{% static 'images/logo.svg' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <a class="navbar-brand" href="#">Gt Tracker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'hotel_list' %}">Hotels</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Rooms</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Track Guest</a>
+          </li>
+        </ul>
+        {% if not the_user.is_authenticated %}
+        <li class="nav-item d-flex justify-content-start">
+            <a class="btn btn-primary ml-8" style="margin-right: 20px;" 
+            href="{% url 'account_login' %}">Log In</a>
+            <a class="btn btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
+        </li>
+        {% endif %}
+        {% if the_user.is_authenticated %}
+        <li class="nav-item dropdown d-flex" style="margin-left: 100px;">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+          </a>
+          <ul class="dropdown-menu" style="margin-left: -100px;">
+            <li><a class="dropdown-item" href="{% url 'tracking' %}">Track</a></li>
+            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
