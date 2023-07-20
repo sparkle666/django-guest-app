@@ -180,3 +180,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_FORMS = {'signup': 'allauth.account.forms.SignupForm'}
+
+# settings.py
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'

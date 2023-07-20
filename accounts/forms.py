@@ -7,6 +7,13 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ('email', 'username')
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.generate_tracking_id()  # Call the method to generate the tracking ID
+        if commit:
+            user.save()
+        return user
 
 class CustomUserChangeForm(UserChangeForm):
 
