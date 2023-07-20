@@ -82,3 +82,9 @@ class UserProfileView(View):
         guest = get_object_or_404(CustomUser, pk = request.user.id)
         rooms = Room.objects.filter(guest = guest)
         return render(request, "pages/user_profile.html", {"rooms": rooms})
+    
+class RoomListView(View):
+    
+    def get(self, request, *args, **kwargs):
+        rooms = Room.objects.all()
+        return render(request, "pages/room_list.html", {"rooms": rooms})

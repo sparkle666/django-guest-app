@@ -12,7 +12,7 @@
             <a class="nav-link active" aria-current="page" href="{% url 'hotel_list' %}">Hotels</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Rooms</a>
+            <a class="nav-link" href="{% url 'room_list' %}">Rooms</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Track Guest</a>
@@ -27,11 +27,11 @@
         {% endif %}
         {% if the_user.is_authenticated %}
         <li class="nav-item dropdown d-flex" style="margin-left: 100px;">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Profile
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user text-primary"></i>
           </a>
           <ul class="dropdown-menu" style="margin-left: -100px;">
-            <li><a class="dropdown-item" href="{% url 'tracking' %}">Track</a></li>
+            <li><a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a></li>
             <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
           </ul>
         </li>

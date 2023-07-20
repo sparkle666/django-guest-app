@@ -1,0 +1,44 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+{% if rooms %}
+        <div class="row">
+            {% for room in rooms %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card w-100 position-relative">
+                        <img src="{{ room.hotel.featured_image.url }}" class="card-img-top" 
+                        alt="{{ room.hotel.name }}">
+                        <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                            {% if room.is_occupied %}
+                                Unavailable
+                            {% else %}
+                                Available
+                            {% endif %}
+                            <span class="visually-hidden">Available Room</span>
+                        </span>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ room.hotel.name }} </h5>
+                            {% if room.is_occupied and room.guest.username == user.username %}
+                                <p class="gt-p"><i class="fas fa-user text-primary"></i> 
+                                    Guest : {{ user.username }}
+                                </p>
+                                <!-- <a href="#" class="btn btn-primary disabled">Check In</a> -->
+                            {% elif room.is_occupied %}
+                                <p class="gt-p"><i class="fas fa-user text-primary"></i> 
+                                    Guest : {{ room.guest.username }}
+                                </p>
+                            {% else %}
+                                
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="container">
+                    <p class="">There is currently no room here...</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

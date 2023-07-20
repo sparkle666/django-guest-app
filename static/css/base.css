@@ -64,3 +64,8 @@ p{
   font-weight: 400;
   padding: 8px 0;
 }
+.gt-footer{
+  background-color: rgb(245, 245, 245);
+  color: white;
+  height: 300px;
+}
