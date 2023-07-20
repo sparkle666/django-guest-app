@@ -56,8 +56,8 @@ class CheckInView(View):
         hotel_id = kwargs.get("hotel_id")
         room_id = kwargs.get("room_id")
         
-        hotel = Room.get_object_or_404(Hotel, pk = hotel_id)
-        room = Room.get_object_or_404(Room, pk = room_id)
+        hotel = get_object_or_404(Hotel, pk = hotel_id)
+        room = get_object_or_404(Room, pk = room_id)
         room.guest = request.user
         if room.is_occupied:
             messages.error(request, "This room is currently occupied!!")
@@ -68,5 +68,11 @@ class CheckInView(View):
         timeline = Timeline(guest = request.user, room = room)
         timeline.save()
         messages.success(request, "You checked into {hotel.name} in {room.id} successfully!")
-        return render(request, "pages/user_profile.html", {})
+        return redirect("user_profile")
         
+class UserProfileView(View):
+    
+    def get(self, request, *args, **kwargs):
+        guest = get_object_or_404(CustomUser, pk = request.user.id)
+        rooms = Room.objects.filter(guest = guest)
+        return render(request, "pages/user_profile.html", {"rooms": rooms})

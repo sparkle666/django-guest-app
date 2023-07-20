@@ -32,7 +32,11 @@
                             {% if room.is_occupied %}
                                 <a href="#" class="btn btn-primary disabled">Check In</a>
                                 {% else %}
-                                <a href="#" class="btn btn-primary">Check In</a>
+                                <form method="post" action="{% url 'check_in' hotel.id room.id %}">
+                                    {% csrf_token %}
+                                    <!-- <a href="" class="btn btn-primary" type="submit">Check In</a> -->
+                                    <button type="submit">Check In</button>
+                                </form>
                             {% endif %}
                         </div>
                     </div>
