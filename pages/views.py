@@ -4,9 +4,10 @@ from accounts.models import CustomUser
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import Hotel, Room
+from .models import Hotel, Room, Timeline
 from faker import Faker
 import random
+from django.utils import timezone
 
 
 class HomePageView(TemplateView):
@@ -48,3 +49,24 @@ class HotelDetail(View):
         hotel = get_object_or_404(Hotel, pk = hotel_id)
         rooms = Room.objects.filter(hotel = hotel)
         return render(request, "pages/hotel_detail.html", {"hotel": hotel, "rooms": rooms})
+    
+class CheckInView(View):
+    
+    def post(self, request, *args, **kwargs):
+        hotel_id = kwargs.get("hotel_id")
+        room_id = kwargs.get("room_id")
+        
+        hotel = Room.get_object_or_404(Hotel, pk = hotel_id)
+        room = Room.get_object_or_404(Room, pk = room_id)
+        room.guest = request.user
+        if room.is_occupied:
+            messages.error(request, "This room is currently occupied!!")
+            return redirect('hotel_list')
+        room.is_occupied = True
+        room.save()
+        # Create a timeline for the user
+        timeline = Timeline(guest = request.user, room = room)
+        timeline.save()
+        messages.success(request, "You checked into {hotel.name} in {room.id} successfully!")
+        return render(request, "pages/user_profile.html", {})
+        
