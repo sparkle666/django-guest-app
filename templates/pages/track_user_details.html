@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load tz %}
+{% load humanize %}
+
+{% block title %}Track user{% endblock title %}
+
+{% block content %}
+    <div class="gt-headline">Showing Tracking History for: {{ user.username }} </div>
+    <div class="gt-timeline">
+        {% for timeline in user_timeline %}
+            <div class="tm-container gt-left">
+                <div class="gt-content">
+                    <h4 class="display-5">{{ timeline.checked_in|date:"" }}</h4>
+                    <h2 class="display-6">{{ timeline.checked_in|date:"H:i a" }}</h2>
+                    <p class="lead">{{ timeline.guest.username|capfirst }} checked into {{ timeline.room.hotel.name }} hotel. </p>
+                    <h4 class="lead mt-2" style="font-weight: 400;">{{ timeline.checked_in|naturaltime }}</h4>
+                </div>
+              </div>
+        {% endfor %}
+      </div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Track user{% endblock title %}
+
+{% block content %}
+    <div class="m-auto" style="height: 400px; padding: 100px;">
+        Traking {{ user.tracking_id }}
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" class="form-control mb-3" placeholder="Track User" name="tracking_id">
+            <button type="submit" class="btn btn-primary mb-3 float-end">Track</button>
+        </form>    
+    </div>
+{% endblock content %}

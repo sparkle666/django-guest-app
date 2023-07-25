@@ -17,17 +17,6 @@ class HomePageView(TemplateView):
 class AboutPageView(TemplateView):
     template_name = "pages/about.html"
 
-class TrackingView(View):
-    def get(self, request, *args, **kwargs):
-        user = CustomUser.objects.get(username = request.user.username)
-        if user:
-            if user.tracking_id is None:
-                user.generate_tracking_id()
-                user.save()
-                messages.success(request, "Generated tracking id", extra_tags = "tracking_success")
-        return redirect("home")
-        # return HttpResponse("User found")
-
 class HotelListView(View):
     
     def get(self, request, *args, **kwargs):
@@ -57,6 +46,7 @@ class CheckInView(View):
         already_checked_in = Room.objects.filter(guest = request.user, is_occupied = True).exists()
 
         if already_checked_in:
+            print(f"{request.user} is already checked in...")
             messages.error(request, "You are already checked into a room.")
             return redirect("hotel_list")
         hotel_id = kwargs.get("hotel_id")
@@ -66,6 +56,7 @@ class CheckInView(View):
         room = get_object_or_404(Room, pk = room_id)
         room.guest = request.user
         if room.is_occupied:
+            print(f"{room.id} is occuppied: {room.is_occupied}")
             messages.error(request, "This room is currently occupied!!")
             return redirect('hotel_list')
         room.is_occupied = True
@@ -89,3 +80,16 @@ class RoomListView(View):
     def get(self, request, *args, **kwargs):
         rooms = Room.objects.all()
         return render(request, "pages/room_list.html", {"rooms": rooms})
+
+class TrackUserView(View):
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, "pages/track_user.html", {})
+    
+    def post(self, request, *args, **kwargs):
+        tracking_id = request.POST.get("tracking_id")
+        
+        user = get_object_or_404(CustomUser, tracking_id = tracking_id)
+        user_timeline = Timeline.objects.filter(guest = user)
+        
+        return render(request, "pages/track_user_details.html", {"user_timeline": user_timeline})
