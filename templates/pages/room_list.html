@@ -21,9 +21,11 @@
                             <h5 class="card-title">{{ room.hotel.name }} </h5>
                             {% if room.is_occupied and room.guest.username == user.username %}
                                 <p class="gt-p"><i class="fas fa-user text-primary"></i> 
-                                    Guest : {{ user.username }}
+                                    Guest : You
                                 </p>
-                                <!-- <a href="#" class="btn btn-primary disabled">Check In</a> -->
+                                <form action="" method="POST">
+                                    <a href="{% url 'check_out' room.id %}" class="btn btn-primary">Check Out</a>
+                                </form>
                             {% elif room.is_occupied %}
                                 <p class="gt-p"><i class="fas fa-user text-primary"></i> 
                                     Guest : {{ room.guest.username }}

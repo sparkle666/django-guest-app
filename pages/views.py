@@ -9,11 +9,12 @@ from faker import Faker
 import random
 from django.utils import timezone
 from accounts.forms import CustomUserChangeForm
+import logging
+
 
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
-
-
+  
 class AboutPageView(TemplateView):
     template_name = "pages/about.html"
 
@@ -66,7 +67,36 @@ class CheckInView(View):
         timeline.save()
         messages.success(request, "You checked into {hotel.name} in {room.id} successfully!")
         return redirect("user_profile")
-     
+
+class CheckOutView(View):
+    
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs.get("room_id")
+        guest = request.user
+        
+        # Get room where user is the current user and room is occupied
+        try:
+            checked_room = get_object_or_404(Room, guest = guest, is_occupied = True)
+            checked_room.is_occupied = False
+            # Get timeline of that paricular user and room and add a checkout
+            user_timeline = get_object_or_404(Timeline, room = checked_room)
+            user_timeline.check_out = True
+            
+            # Save room and timeline to db
+            
+            checked_room.save()
+            user_timeline.save()
+            
+            return redirect("hotel_list")
+            
+        except MultipleObjectsReturned:
+            messages.error("An error was encountered")
+            logging.error("Each user can only check in to 1 room at a time. Multple checked in rooms detected")
+            return redirect("hotel_list")
+            
+        return redirect("hotel_list")
+        
+        
 class UserProfileView(View):
     
     def get(self, request, *args, **kwargs):
